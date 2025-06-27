@@ -1,5 +1,5 @@
 class Solution {
-    public boolean containsDuplicateSet(int[] nums) {
+    public boolean containsDuplicate(int[] nums) {
         HashSet<Integer> set = new HashSet<>();
 
         for (int num : nums){
@@ -16,7 +16,7 @@ class Solution {
 
    // approach - sorting
 
-    public boolean containsDuplicate(int[] nums) {
+    public boolean containsDuplicateSorting(int[] nums) {
         int n = nums.length;
         Arrays.sort(nums);
 
