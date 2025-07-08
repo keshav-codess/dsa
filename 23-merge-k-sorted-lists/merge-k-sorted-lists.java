@@ -52,27 +52,35 @@ class Solution {
 
 
 
-    
+
 
     // Optimized: Min Heap / Priority Queue
 
     public ListNode mergeKListsOptimized(ListNode[] lists) {
-        PriorityQueue<ListNode> pq = new PriorityQueue<>(
-            (a, b) -> a.val - b.val
-        );
+        // Min heap to keep the smallest node on top
+        PriorityQueue<ListNode> pq = new PriorityQueue<>((a, b) -> a.val - b.val);
 
+        // Add head of all k lists to the min heap
         for (ListNode node : lists) {
-            if (node != null) pq.add(node);
+            if (node != null) {
+                pq.add(node);
+            }
         }
 
+        // Dummy head for the result list
         ListNode dummy = new ListNode(0);
         ListNode tail = dummy;
 
+        // Until heap is empty
         while (!pq.isEmpty()) {
+            // Extract the node with the smallest value
             ListNode minNode = pq.poll();
+
+            // Add it to the result list
             tail.next = minNode;
             tail = tail.next;
 
+            // If the list has more nodes, add the next one to heap
             if (minNode.next != null) {
                 pq.add(minNode.next);
             }
