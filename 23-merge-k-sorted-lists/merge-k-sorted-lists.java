@@ -54,37 +54,38 @@ class Solution {
 
 
 
-    // Optimized: Min Heap / Priority Queue
+    // Optimized:  (Divide & Conquer)
 
     public ListNode mergeKListsOptimized(ListNode[] lists) {
-        // Min heap to keep the smallest node on top
-        PriorityQueue<ListNode> pq = new PriorityQueue<>((a, b) -> a.val - b.val);
+       if (lists == null || lists.length == 0) return null;
+        return mergeRange(lists, 0, lists.length - 1);
+    }
 
-        // Add head of all k lists to the min heap
-        for (ListNode node : lists) {
-            if (node != null) {
-                pq.add(node);
-            }
-        }
+    private ListNode mergeRange(ListNode[] lists, int start, int end) {
+        if (start == end) return lists[start];
+        int mid = start + (end - start) / 2;
+        ListNode left = mergeRange(lists, start, mid);
+        ListNode right = mergeRange(lists, mid + 1, end);
+        return mergeTwoLists(left, right);
+    }
 
-        // Dummy head for the result list
+    private ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         ListNode dummy = new ListNode(0);
-        ListNode tail = dummy;
+        ListNode cur = dummy;
 
-        // Until heap is empty
-        while (!pq.isEmpty()) {
-            // Extract the node with the smallest value
-            ListNode minNode = pq.poll();
-
-            // Add it to the result list
-            tail.next = minNode;
-            tail = tail.next;
-
-            // If the list has more nodes, add the next one to heap
-            if (minNode.next != null) {
-                pq.add(minNode.next);
+        while (l1 != null && l2 != null) {
+            if (l1.val <= l2.val) {
+                cur.next = l1;
+                l1 = l1.next;
+            } else {
+                cur.next = l2;
+                l2 = l2.next;
             }
+            cur = cur.next;
         }
+
+        if (l1 != null) cur.next = l1;
+        if (l2 != null) cur.next = l2;
 
         return dummy.next;
     }
