@@ -8,9 +8,11 @@
  *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
+import java.util.PriorityQueue;
+
 class Solution {
 
-    // Function to merge two sorted linked lists
+    // Function to merge two sorted linked lists (used in simple approach)
     public ListNode mergeTwoSortedLists(ListNode list1, ListNode list2) {
         ListNode dummy = new ListNode(0);
         ListNode cur = dummy;
@@ -36,11 +38,9 @@ class Solution {
         return dummy.next;
     }
 
-    // Function to merge k sorted linked lists
+    // Brute-force: merge one by one
     public ListNode mergeKLists(ListNode[] lists) {
-        if (lists.length == 0) {
-            return null;
-        }
+        if (lists.length == 0) return null;
 
         ListNode result = lists[0];
         for (int i = 1; i < lists.length; i++) {
@@ -48,5 +48,36 @@ class Solution {
         }
 
         return result;
+    }
+
+
+
+    
+
+    // Optimized: Min Heap / Priority Queue
+
+    public ListNode mergeKListsOptimized(ListNode[] lists) {
+        PriorityQueue<ListNode> pq = new PriorityQueue<>(
+            (a, b) -> a.val - b.val
+        );
+
+        for (ListNode node : lists) {
+            if (node != null) pq.add(node);
+        }
+
+        ListNode dummy = new ListNode(0);
+        ListNode tail = dummy;
+
+        while (!pq.isEmpty()) {
+            ListNode minNode = pq.poll();
+            tail.next = minNode;
+            tail = tail.next;
+
+            if (minNode.next != null) {
+                pq.add(minNode.next);
+            }
+        }
+
+        return dummy.next;
     }
 }
