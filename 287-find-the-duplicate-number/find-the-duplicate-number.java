@@ -1,6 +1,5 @@
 class Solution {
     public int findDuplicate(int[] nums) {
-        // Phase 1: Detect intersection
         int slow = nums[0];
         int fast = nums[0];
 
