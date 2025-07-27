@@ -1,5 +1,3 @@
-import java.util.*;
-
 class Solution {
     public int[] kthSmallestPrimeFraction(int[] arr, int k) {
         int n = arr.length;
